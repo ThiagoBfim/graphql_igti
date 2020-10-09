@@ -11,10 +11,9 @@ part 'home_controller.g.dart';
 class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
-
   var repository = HomeModule.to.get<ICursoRepository>();
 
-  Future<List<Curso>> recuperarCursos(){
+  Future<List<Curso>> recuperarCursos() {
     return repository.fetchCursos();
   }
 }

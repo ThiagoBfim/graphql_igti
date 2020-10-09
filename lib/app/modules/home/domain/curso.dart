@@ -1,9 +1,11 @@
 class Curso {
   String dsNome;
   int totalMaterias;
+  int materiasConcluidas;
 
   Curso.fromJson(Map<String, dynamic> json) {
     this.dsNome = json['ds_nome'];
-    this.totalMaterias = json['materias_aggregate']['aggregate']['count'];
+    this.materiasConcluidas = json['materiasConcluidas']['aggregate']['count'];
+    this.totalMaterias = json['totalMaterias']['aggregate']['count'];
   }
 }

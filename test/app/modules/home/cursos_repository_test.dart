@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:graphql_igti/app/modules/home/domain/curso.dart';
 import 'package:graphql_igti/app/modules/home/repository/curso_repository.dart';
-import 'package:mockito/mockito.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
 
 class MockClient extends Mock implements http.Client {}
 
@@ -13,7 +13,7 @@ void main() {
   // make your mocks here
   setUp(() {
     client = MockClient();
-    repository = CursoRepository(client);
+    repository = CursoRepository(client: client);
   });
 
   group('CursoRepository Test', () {
@@ -30,24 +30,20 @@ void main() {
   });
 }
 
-
 var jsonReturn = '''
-    {
+   {
     "data": {
         "curso": [
             {
                 "ds_nome": "TESTE",
-                "materias_aggregate": {
+                "materiasConcluidas": {
                     "aggregate": {
-                        "count": 0
+                        "count": 1
                     }
-                }
-            },
-            {
-                "ds_nome": "Fundamentos em Desenvolvimento Mobile",
-                "materias_aggregate": {
+                },
+                "totalMaterias": {
                     "aggregate": {
-                        "count": 2
+                        "count": 1
                     }
                 }
             }
