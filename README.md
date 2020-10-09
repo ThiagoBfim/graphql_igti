@@ -19,5 +19,4 @@ Esse projeto contempla a atividade da máteria de Fundamentos em Desenvolvimento
 ### Main Packages
 * Flutter Modular
 * Mobx
-* Dio
 * GraphQL
