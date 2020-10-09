@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:graphql_igti/app/modules/home/domain/curso.dart';
-import 'package:graphql_igti/app/modules/home/repository/curso_repository.dart';
+import 'package:graphql_igti/app/domain/curso.dart';
+import 'package:graphql_igti/app/repository/curso_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 

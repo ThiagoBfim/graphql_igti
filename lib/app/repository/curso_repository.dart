@@ -1,8 +1,7 @@
+import 'package:graphql_igti/app/domain/curso.dart';
+import 'package:graphql_igti/app/repository/curso_repository_interface.dart';
 import 'package:hasura_connect/hasura_connect.dart';
 import 'package:http/http.dart' as http;
-
-import '../domain/curso.dart';
-import 'curso_repository_interface.dart';
 
 class CursoRepository implements ICursoRepository {
   final http.Client client;
@@ -37,7 +36,24 @@ class CursoRepository implements ICursoRepository {
     return cursos;
   }
 
-  @override
-  void dispose() {
+  Future saveCurso(Curso curso) {
+    String url = 'https://adequate-loon-78.hasura.app/v1/graphql';
+    HasuraConnect hasuraConnect = HasuraConnect(url, httpClient: client);
+    String docQuery = """
+    mutation MyMutation {
+      insert_curso_one(
+        object: {
+        ds_nome: "${curso.dsNome}"
+      }
+      ) {
+        ds_nome
+      }
+    }
+
+    """;
+    return hasuraConnect.mutation(docQuery);
   }
+
+  @override
+  void dispose() {}
 }

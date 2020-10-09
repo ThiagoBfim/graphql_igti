@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:graphql_igti/app/app_module.dart';
+import 'package:graphql_igti/app/app_widget.dart';
 
-import 'domain/curso.dart';
+import '../../domain/curso.dart';
 import 'home_controller.dart';
 
 class HomePage extends StatefulWidget {
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -23,15 +24,16 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
-          colors: [
-            const Color(0xFF3366FF),
-            const Color(0xFF00CCFF),
-          ],
-          begin: const FractionalOffset(0.0, 0.0),
-          end: const FractionalOffset(1.0, 1.0),
-          stops: [0.0, 1.0],
-          tileMode: TileMode.clamp,
-        )),
+              colors: [
+                AppWidget.primarySwatch[300],
+                AppWidget.primarySwatch[600],
+                AppWidget.primarySwatch[800],
+              ],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 1.0),
+              stops: [0.0, 1.0, 3.0],
+              tileMode: TileMode.clamp,
+            )),
         child: Column(
           children: [
             Padding(
@@ -51,6 +53,26 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                     }
                   }),
             ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: AppWidget.primarySwatch[900],
+                  boxShadow: [
+                    BoxShadow(color: Colors.white12, spreadRadius: 0.5),
+                  ],
+                ),
+                child: MaterialButton(
+                  onPressed: () =>
+                      Navigator.pushNamed(context, "/new-course"),
+                  child: Text(
+                    'Adicionar novo curso',
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -64,9 +86,13 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
           itemCount: snapshot.data.length,
           itemBuilder: (BuildContext context, int index) {
             var curso = snapshot.data[index];
-            var percentConcluido =
-                (curso.materiasConcluidas / curso.totalMaterias).toDouble();
-            print(percentConcluido);
+            var percentConcluido;
+            if (curso.totalMaterias == 0) {
+              percentConcluido = 0.0;
+            } else {
+              percentConcluido =
+                  (curso.materiasConcluidas / curso.totalMaterias).toDouble();
+            }
             return ListTile(
               title: Text(curso.dsNome, style: TextStyle(color: Colors.white)),
               subtitle: Hero(
@@ -83,7 +109,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                             value: percentConcluido,
                             backgroundColor: Colors.grey.withAlpha(50),
                             valueColor:
-                                AlwaysStoppedAnimation<Color>(Colors.white),
+                            AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         ),
                       ),
