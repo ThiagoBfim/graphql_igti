@@ -1,16 +1,23 @@
-# graphql_igti
+# IGTI - GraphQL
 
-A new Flutter project. Created by Slidy
+Projeto contendo utilização de GraphQL para listagem de cursos e máterias.
 
-## Getting Started
+Esse projeto contempla a atividade da máteria de Fundamentos em Desenvolvimento Mobile do IGTI.
 
-This project is a starting point for a Flutter application.
+## Aplicativo
 
-A few resources to get you started if this is your first Flutter project:
+<div align='center'>
+    <img src="images/tela1.jpeg" width="200">
+    <img src="images/tela2.jpeg" width="200">
+</div>
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Technologies
+* [Flutter](https://flutter.dev)
+* [Slidy](https://github.com/Flutterando/slidy)
+* [Hasura](https://hasura.io/)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Main Packages
+* Flutter Modular
+* Mobx
+* Dio
+* GraphQL
