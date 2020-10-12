@@ -10,4 +10,12 @@ class Curso {
     this.materiasConcluidas = json['materiasConcluidas']['aggregate']['count'];
     this.totalMaterias = json['totalMaterias']['aggregate']['count'];
   }
+
+  double getPercentConcluido() {
+    if (totalMaterias == 0) {
+      return 0.0;
+    } else {
+      return (materiasConcluidas / totalMaterias).toDouble();
+    }
+  }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:graphql_igti/app/app_module.dart';
 import 'package:graphql_igti/app/app_widget.dart';
 
 import '../../domain/curso.dart';
@@ -24,16 +23,16 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                AppWidget.primarySwatch[300],
-                AppWidget.primarySwatch[600],
-                AppWidget.primarySwatch[800],
-              ],
-              begin: const FractionalOffset(0.0, 0.0),
-              end: const FractionalOffset(1.0, 1.0),
-              stops: [0.0, 1.0, 3.0],
-              tileMode: TileMode.clamp,
-            )),
+          colors: [
+            AppWidget.primarySwatch[300],
+            AppWidget.primarySwatch[600],
+            AppWidget.primarySwatch[800],
+          ],
+          begin: const FractionalOffset(0.0, 0.0),
+          end: const FractionalOffset(1.0, 1.0),
+          stops: [0.0, 1.0, 3.0],
+          tileMode: TileMode.clamp,
+        )),
         child: Column(
           children: [
             Padding(
@@ -64,8 +63,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
                   ],
                 ),
                 child: MaterialButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, "/new-course"),
+                  onPressed: () => Navigator.pushNamed(context, "/new-course"),
                   child: Text(
                     'Adicionar novo curso',
                     style: TextStyle(fontSize: 18, color: Colors.white),
@@ -83,49 +81,55 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     return Container(
       child: ListView.separated(
           separatorBuilder: (BuildContext context, int index) => Divider(),
-          itemCount: snapshot.data.length,
+          itemCount: snapshot.data.length + 1,
           itemBuilder: (BuildContext context, int index) {
-            var curso = snapshot.data[index];
-            var percentConcluido;
-            if (curso.totalMaterias == 0) {
-              percentConcluido = 0.0;
-            } else {
-              percentConcluido =
-                  (curso.materiasConcluidas / curso.totalMaterias).toDouble();
+            if (index == 0) {
+              var qtdCursosParaSeremConcludios = snapshot.data
+                  .where((element) => element.getPercentConcluido() != 1)
+                  .length;
+              return ListTile(
+                  title: Text(
+                "Você possui $qtdCursosParaSeremConcludios cursos para serem concluídos.",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ));
             }
-            return ListTile(
-              title: Text(curso.dsNome, style: TextStyle(color: Colors.white)),
-              subtitle: Hero(
-                tag: curso.dsNome + "_progress_bar",
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 20),
-                        height: 20,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                          child: LinearProgressIndicator(
-                            value: percentConcluido,
-                            backgroundColor: Colors.grey.withAlpha(50),
-                            valueColor:
-                            AlwaysStoppedAnimation<Color>(Colors.white),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        (percentConcluido * 100).round().toString() + "%",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                  ],
+            var curso = snapshot.data[index - 1];
+            return _buildCurstoItem(curso);
+          }),
+    );
+  }
+
+  ListTile _buildCurstoItem(Curso curso) {
+    return ListTile(
+      title: Text(curso.dsNome, style: TextStyle(color: Colors.white)),
+      subtitle: Hero(
+        tag: curso.dsNome + "_progress_bar",
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                height: 20,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  child: LinearProgressIndicator(
+                    value: curso.getPercentConcluido(),
+                    backgroundColor: Colors.grey.withAlpha(50),
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                  ),
                 ),
               ),
-            );
-          }),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                (curso.getPercentConcluido() * 100).round().toString() + "%",
+                style: TextStyle(color: Colors.white),
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 
